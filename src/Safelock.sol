@@ -5,7 +5,7 @@ import './lib/Errors.sol';
 import './lib/Events.sol';
 
 
-contract TimeVest {
+contract SafeLock {
     struct Lock {
         uint256 id;
         string title;
@@ -33,7 +33,7 @@ contract TimeVest {
         emit Events.safeLockCreated(msg.sender, _title, msg.value, timestamp);
     }
 
-    
+
     
 
 
