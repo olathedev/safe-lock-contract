@@ -9,6 +9,8 @@ contract TimeVest {
         uint256 duration;
     }
 
+    uint256 _locksIdCounter;
+
     mapping(address => Lock) safeLocks;
 
     function createSafeLock(string memory _title, uint256 _durationInDays) external payable {
