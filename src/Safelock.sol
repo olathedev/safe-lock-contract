@@ -6,7 +6,8 @@ import './lib/Events.sol';
 
 
 contract SafeLock {
-    struct Lock {
+
+    struct CreateLock {
         uint256 id;
         string title;
         uint256 amount;
@@ -15,16 +16,16 @@ contract SafeLock {
 
     uint256 _locksIdCounter;
 
-    mapping(address => Lock) safeLocks;
+    mapping(address => CreateLock) public safeLocks;
 
     function createSafeLock(string memory _title, uint256 _durationInDays) external payable {
-        if(msg.value < 0) revert Errors.InvalidDepositAmount();
+        if(msg.value < 1) revert Errors.InvalidDepositAmount();
         if(_durationInDays < 10) revert Errors.InvalidLockDuration();
 
         uint256 timestamp = block.timestamp + (_durationInDays * 1 days);
-
-        safeLocks[msg.sender] = Lock({
-            id: _locksIdCounter + 1,
+        
+        safeLocks[msg.sender] = CreateLock({
+            id: _locksIdCounter++,
             title: _title,
             amount: msg.value,
             duration: timestamp
