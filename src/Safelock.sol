@@ -34,8 +34,21 @@ contract SafeLock {
         emit Events.safeLockCreated(msg.sender, _title, msg.value, timestamp);
     }
 
+    function withdrawLockedFunds() external {
+        CreateLock memory userSafeLock = safeLocks[msg.sender];
 
+        if(userSafeLock.amount < 0) revert Errors.NoDepositFound();
+        if(userSafeLock.duration < block.timestamp) revert Errors.DepositStillLocked();
+
+        uint256 amount = userSafeLock.amount;
+        
+        payable(msg.sender).transfer(amount);
+
+        delete safeLocks[msg.sender];
+
+        emit Events.Withdrawn(msg.sender, amount);
+    }
     
 
-
+    
 }

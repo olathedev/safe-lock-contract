@@ -10,6 +10,12 @@ contract SafeLockTest is Test {
     SafeLock safeLock;
 
     address user = address(1);
+    struct CreateLock {
+        uint256 id;
+        string title;
+        uint256 amount;
+        uint256 duration;
+    }
 
     function setUp() public {
         safeLock = new SafeLock();
@@ -41,21 +47,21 @@ contract SafeLockTest is Test {
         vm.stopPrank();
     }
 
-    function testSUccessfulCreationOfSafeLock() public {
+    function testSuccessfulCreationOfSafeLock() public {
         vm.startPrank(user);
 
         vm.deal(user, 2 ether);
 
         safeLock.createSafeLock{value: 1 ether}("Money for lambo", 30);
-
-        // safeLock.Lock memory createdLock = safeLock.safeLocks(user);
-        (uint256 amount,,,) = safeLock.safeLocks(user);
         
+        
+        (uint256 id, string memory title, uint256 amount, uint256 duration) = safeLock.safeLocks(user);
+                    
         assertEq(amount, 1 ether, "unable to create safelock");
         vm.stopPrank();
-
-
     }
+
+
 
     
 
